@@ -7,6 +7,7 @@ import BlogFeed from "./pages/BlogFeed";
 import Register from "./pages/register";
 import BlogDetails from "./pages/BlogDetails";
 import Profile from "./pages/Profile";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/blog/:id" element={<BlogDetails />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </main>
         <Footer />
