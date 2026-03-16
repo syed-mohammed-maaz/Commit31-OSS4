@@ -6,7 +6,11 @@ const db = require('./config/db')
 
 const app = express()
 
-app.use(cors())
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN?.split(',') ?? ['http://localhost:3000'],
+  })
+)
 app.use(express.json())
 
 app.get('/api/health', (req, res) => {
@@ -18,7 +22,8 @@ app.get('/api/db-test', async (req, res) => {
     const result = await db.query('SELECT NOW()')
     res.json({ status: 'ok', time: result.rows[0] })
   } catch (err) {
-    res.status(500).json({ error: err.message })
+    console.error('DB test endpoint failed', err)
+    res.status(500).json({ status: 'error', message: 'Database test failed' })
   }
 })
 
@@ -29,4 +34,7 @@ const startServer = async () => {
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 }
 
-startServer()
+startServer().catch((err) => {
+  console.error('Server startup failed', err)
+  process.exit(1)
+})
